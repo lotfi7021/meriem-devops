@@ -1,5 +1,0 @@
-
-fichier .gitignore
-### credentials###
-.env
-.env.*
