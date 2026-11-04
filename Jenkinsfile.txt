@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -8,16 +9,39 @@ pipeline {
             }
         }
 
-        stage('Clone') {
+        stage('Clone Git') {
             steps {
-                echo 'Repository cloned successfully!'
+                git branch: 'main',
+                    url: 'https://github.com/lotfi7021/devops.git'
+            }
+        }
+
+        stage('Test JDK') {
+            steps {
+                sh 'java -version'
+            }
+        }
+
+        stage('Test Maven') {
+            steps {
+                sh 'mvn -version'
             }
         }
 
         stage('Build') {
             steps {
                 echo 'Building project...'
+                sh 'mvn clean package'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check Console Output.'
         }
     }
 }
